@@ -3,6 +3,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=60)
+    description = models.TextField(null=True, blank=True)
 
 
 class Topic(models.Model):
