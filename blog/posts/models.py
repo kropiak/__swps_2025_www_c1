@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -7,6 +8,9 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+    
+    def __str__(self):
+        return self.name
 
 
 class Topic(models.Model):
@@ -16,3 +20,19 @@ class Topic(models.Model):
 
     class Meta:
         ordering = ['-created']
+    
+    def __str__(self):
+        return self.name
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=150)
+    text = models.TextField()
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    slug = models.SlugField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.title
