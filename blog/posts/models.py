@@ -8,6 +8,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+        ordering = ['name']
     
     def __str__(self):
         return self.name
@@ -19,7 +20,7 @@ class Topic(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-created']
+        ordering = ['name']
     
     def __str__(self):
         return self.name
@@ -33,6 +34,9 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.title
