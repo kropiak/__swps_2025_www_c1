@@ -3,5 +3,6 @@ from . import api_views
 
 urlpatterns = [
     path('topics/', api_views.topic_list),
-    # path('persons/<int:pk>/', api_views.person_detail),
+    path('topics/<int:pk>/', api_views.topic_detail),
+    path('topics/create/', api_views.topic_create),
 ]

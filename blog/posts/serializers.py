@@ -14,15 +14,22 @@ class TopicSerializer(serializers.Serializer):
         return Topic.objects.create(**validated_data)
 
     # przesłonięcie metody update() z klasy serializers.Serializer
-    # def update(self, instance, validated_data):
-    #     instance.firstname = validated_data.get('firstname', instance.firstname)
-    #     instance.lastname = validated_data.get('lastname', instance.lastname)
-    #     instance.shirt_size = validated_data.get('shirt_size', instance.shirt_size)
-    #     instance.month_added = validated_data.get('month_added', instance.month_added)
-    #     instance.team = validated_data.get('team', instance.team)
-    #     instance.save()
-    #     return instance
+    # wykorzystywana przy żądaniach aktualizacji obiektu przez REST API
+    # np. żądaniu typu PUT oraz PATCH
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.category = validated_data.get('category', instance.category)
+        instance.save()
+        return instance
     # Ctrl + / - dodanie/usunięcie komentarza dla zaznaczonych linii
+
+    def validate_name(self, value):
+        temp_value = value.strip().replace(' ','')
+        if not temp_value.isalpha():
+            raise serializers.ValidationError(
+                "Nazwa musi zawierać tylko litery!",
+            )
+        return value
 
 
 class CategoryModelSerializer(serializers.ModelSerializer):
