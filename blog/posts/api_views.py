@@ -57,3 +57,10 @@ def topic_create(request):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def topic_by_name(request, phrase):
+    topics = Topic.objects.filter(name__icontains=phrase)
+    serializer = TopicSerializer(topics, many=True)
+    return Response(serializer.data)
